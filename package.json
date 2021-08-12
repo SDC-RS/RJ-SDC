@@ -1,0 +1,23 @@
+{
+  "name": "rj-sdc",
+  "version": "1.0.0",
+  "description": "sdc project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDC-RS/RJ-SDC.git"
+  },
+  "author": "Jonesy464",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDC-RS/RJ-SDC/issues"
+  },
+  "homepage": "https://github.com/SDC-RS/RJ-SDC#readme",
+  "dependencies": {
+    "path": "^0.12.7",
+    "pg": "^8.7.1"
+  }
+}
