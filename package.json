@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SDC-RS/RJ-SDC#readme",
   "dependencies": {
+    "fast-csv": "^4.3.6",
     "path": "^0.12.7",
     "pg": "^8.7.1"
   }

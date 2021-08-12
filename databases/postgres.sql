@@ -1,7 +1,8 @@
 CREATE DATABASE IF NOT EXISTS sdc;
 
 \c sdc;
-
+DROP SCHEMA IF EXISTS public CASCADE;
+CREATE SCHEMA public;
 CREATE TABLE IF NOT EXISTS products (
   product_id integer NOT NULL PRIMARY KEY,
   name VARCHAR(35) NOT NULL,
@@ -22,7 +23,7 @@ CREATE TABLE IF NOT EXISTS styles (
   styles_id integer NOT NULL PRIMARY KEY,
   product_id integer REFERENCES products (product_id),
   name VARCHAR(35) NOT NULL,
-  sale_price integer NOT NULL,
+  sale_price integer,
   original_price integer NOT NULL,
   default_style BOOLEAN NOT NULL
 );
@@ -42,8 +43,9 @@ CREATE TABLE IF NOT EXISTS photos (
 );
 
 CREATE TABLE IF NOT EXISTS related (
+  related_id integer NOT NULL PRIMARY KEY,
   current_product_id integer REFERENCES products (product_id),
-  related_product_id integer REFERENCES products (product_id)
+  related_product_id integer NOT NULL
 );
 
 \dt;
