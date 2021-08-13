@@ -9,20 +9,21 @@ const pool = new Pool({
   database: 'sdc',
   port: 5432,
 })
-
+let count = 0;
   fs.createReadStream(path.resolve(__dirname, '../data/photos.csv'))
   .pipe(csv.parse({headers: true}))
   .on('error', (err) => (console.log('error reading photos', error)))
-  .on('data', (row) => {
+  .on('data', async (row) => {
     const query = 'INSERT INTO photos(photos_id, current_product_id, photos_product_id) VALUES ($1, $2, $3)';
     const values = [Number(row.id), Number(row.current_product_id), Number(row.photos_product_id)];
-    pool.query(query, values, (err, res) => {
+    await pool.query(query, values, (err, res) => {
       if (err) {
         return console.error('Error inserting photos', err.stack)
       }
+      count++;
+      console.log(`row: ${count}`)
     })
   })
   .on('end', (rowCount) => {
     console.log(`Parsed ${rowCount} rows for features`);
-    res.end()
   });

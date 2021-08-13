@@ -9,11 +9,11 @@ const pool = new Pool({
   database: 'sdc',
   port: 5432,
 })
-
+let count = 0;
 fs.createReadStream(path.resolve(__dirname, '../data/styles.csv'))
 .pipe(csv.parse({headers: true}))
 .on('error', (err) => (console.log('error reading styles', error)))
-.on('data', (row) => {
+.on('data', async (row) => {
   const query = 'INSERT INTO styles(styles_id, product_id, \
      name, sale_price, original_price, default_style) VALUES \
      ($1, $2, $3, $4, $5, $6)';
@@ -23,13 +23,14 @@ fs.createReadStream(path.resolve(__dirname, '../data/styles.csv'))
     row.name, ...row.sale_price === 'null' ? [null] : [Number(row.sale_price)],
     Number(row.original_price), !!Number(row.default_style),
   ]
-  pool.query(query, values, (err, res) => {
+  await pool.query(query, values, (err, res) => {
     if (err) {
       return console.error('Error inserting styles', err.stack);
     }
+    count++;
+    console.log(`row: ${count}`)
   })
 })
-.on('end', (res, rowCount) => {
+.on('end', (rowCount) => {
   console.log(`Parsed ${rowCount} rows for styles`);
-  res.end()
 });

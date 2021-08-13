@@ -9,11 +9,11 @@ const pool = new Pool({
   database: 'sdc',
   port: 5432,
 })
-
+let count = 0;
   fs.createReadStream(path.resolve(__dirname, '../data/related.csv'))
   .pipe(csv.parse({headers: true}))
   .on('error', (err) => (console.log('error reading related', error)))
-  .on('data', (row) => {
+  .on('data', async (row) => {
     const query = 'INSERT INTO related(related_id, current_product_id, \
       related_product_id) VALUES ($1, $2, $3)';
     const values = [
@@ -21,13 +21,14 @@ const pool = new Pool({
       Number(row.current_product_id),
       Number(row.related_product_id)
     ];
-    pool.query(query, values, (err, res) => {
+    await pool.query(query, values, (err, res) => {
       if (err) {
         return console.error('Error inserting related', err.stack)
       }
+      count++;
+      console.log(`row: ${count}`)
     })
   })
   .on('end', (rowCount) => {
     console.log(`Parsed ${rowCount} rows for features`);
-    res.end()
   });

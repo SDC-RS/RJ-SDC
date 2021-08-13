@@ -22,12 +22,13 @@ let count = 0;
       if (err) {
         return console.error('Error inserting products', err.stack)
       }
-      console.log(`row: ${count++}`)
+      count++;
+      console.log(`row: ${count}`)
     })
   })
   .on('end', (rowCount) => {
     console.log(`Parsed ${rowCount} rows for products`);
-    res.end()
-  });
+  })
+
 
 

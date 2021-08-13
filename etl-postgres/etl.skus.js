@@ -9,7 +9,7 @@ const pool = new Pool({
   database: 'sdc',
   port: 5432,
 })
-
+let count = 0;
   fs.createReadStream(path.resolve(__dirname, '../data/skus.csv'))
   .pipe(csv.parse({headers: true}))
   .on('error', (err) => (console.log('error reading skus', error)))
@@ -21,10 +21,9 @@ const pool = new Pool({
       if (err) {
         return console.error('Error inserting skus', err.stack)
       }
-      console.log(`row: ${count++}`);
-    })
+      count++;
+      console.log(`row: ${count}`)    })
   })
   .on('end', (res, rowCount) => {
     console.log(`Parsed ${rowCount} rows for skus`);
-    res.end()
   });
