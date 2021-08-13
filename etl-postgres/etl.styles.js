@@ -14,12 +14,22 @@ fs.createReadStream(path.resolve(__dirname, '../data/styles.csv'))
 .pipe(csv.parse({headers: true}))
 .on('error', (err) => (console.log('error reading styles', error)))
 .on('data', (row) => {
-  const query = 'INSERT INTO styles(styles_id, product_id, name, sale_price, original_price, default_style) VALUES ($1, $2, $3, $4, $5, $6)';
-  const values = [Number(row.id), Number(row.productId), row.name, row.sale_price, Number(row.original_price), !!Number(row.default_style)]
+  const query = 'INSERT INTO styles(styles_id, product_id, \
+     name, sale_price, original_price, default_style) VALUES \
+     ($1, $2, $3, $4, $5, $6)';
+  const values = [
+    Number(row.id),
+    Number(row.productId),
+    row.name, ...row.sale_price === 'null' ? [null] : [Number(row.sale_price)],
+    Number(row.original_price), !!Number(row.default_style),
+  ]
   pool.query(query, values, (err, res) => {
     if (err) {
-      return console.error('Error inserting products', err.stack);
+      return console.error('Error inserting styles', err.stack);
     }
   })
 })
-.on('end', (rowCount) => console.log(`Parsed ${rowCount} rows for styles`));
+.on('end', (res, rowCount) => {
+  console.log(`Parsed ${rowCount} rows for styles`);
+  res.end()
+});

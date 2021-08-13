@@ -14,37 +14,37 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS features (
   feature_id integer NOT NULL PRIMARY KEY,
-  product_id integer REFERENCES products (product_id),
+  product_id integer NOT NULL,
   feature VARCHAR(35) NOT NULL,
   value VARCHAR(35) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS styles (
   styles_id integer NOT NULL PRIMARY KEY,
-  product_id integer REFERENCES products (product_id),
+  product_id integer NOT NULL,
   name VARCHAR(35) NOT NULL,
-  sale_price integer,
+  sale_price integer NULL,
   original_price integer NOT NULL,
   default_style BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS skus (
   skus_id integer NOT NULL PRIMARY KEY,
-  styles_id integer REFERENCES styles (styles_id),
+  styles_id integer NOT NULL,
   size VARCHAR(35) NOT NULL,
   quantity integer NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS photos (
   photo_id integer NOT NULL PRIMARY KEY,
-  styles_id integer REFERENCES styles (styles_id),
+  styles_id integer NOT NULL,
   thumbnail_url VARCHAR(258) NOT NULL,
   url VARCHAR(258) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS related (
   related_id integer NOT NULL PRIMARY KEY,
-  current_product_id integer REFERENCES products (product_id),
+  current_product_id integer NOT NULL,
   related_product_id integer NOT NULL
 );
 

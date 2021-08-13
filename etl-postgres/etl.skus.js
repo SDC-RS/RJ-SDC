@@ -13,13 +13,18 @@ const pool = new Pool({
   fs.createReadStream(path.resolve(__dirname, '../data/skus.csv'))
   .pipe(csv.parse({headers: true}))
   .on('error', (err) => (console.log('error reading skus', error)))
-  .on('data', (row) => {
+  .on('data', async (row) => {
     const query = 'INSERT INTO skus(skus_id, styles_id, size, quantity) VALUES ($1, $2, $3, $4)';
     const values = [Number(row.id), Number(row.styleId), row.size, Number(row.quantity)];
-    pool.query(query, values, (err, res) => {
+    const count = 0;
+    await pool.query(query, values, (err, res) => {
       if (err) {
         return console.error('Error inserting skus', err.stack)
       }
+      console.log(`row: ${count++}`);
     })
   })
-  .on('close', (rowCount) => console.log(`Parsed ${rowCount} rows for skus`));
+  .on('end', (res, rowCount) => {
+    console.log(`Parsed ${rowCount} rows for skus`);
+    res.end()
+  });

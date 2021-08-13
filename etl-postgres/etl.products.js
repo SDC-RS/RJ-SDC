@@ -10,19 +10,24 @@ const pool = new Pool({
   port: 5432,
 })
 
+let count = 0;
+
   fs.createReadStream(path.resolve(__dirname, '../data/products.csv'))
   .pipe(csv.parse({headers: true}))
   .on('error', (err) => (console.log('error reading products', error)))
-  .on('data', (row) => {
+  .on('data', async (row) => {
     const query = 'INSERT INTO products(product_id, name, slogan, description, category, default_price) VALUES ($1, $2, $3, $4, $5, $6)';
     const values = [Number(row.id), row.name, row.slogan, row.description, row.category, Number(row.default_price)]
-    pool.query(query, values, (err, res) => {
+    await pool.query(query, values, (err, res) => {
       if (err) {
         return console.error('Error inserting products', err.stack)
       }
+      console.log(`row: ${count++}`)
     })
   })
-  .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows for products`));
-
+  .on('end', (rowCount) => {
+    console.log(`Parsed ${rowCount} rows for products`);
+    res.end()
+  });
 
 

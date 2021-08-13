@@ -22,5 +22,8 @@ const pool = new Pool({
       }
     })
   })
-  .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows for features`));
+  .on('end', (rowCount) => {
+    console.log(`Parsed ${rowCount} rows for features`);
+    res.end()
+  });
 

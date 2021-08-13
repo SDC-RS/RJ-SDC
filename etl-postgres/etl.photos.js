@@ -22,4 +22,7 @@ const pool = new Pool({
       }
     })
   })
-  .on('close', (rowCount) => console.log(`Parsed ${rowCount} rows for photos`));
+  .on('end', (rowCount) => {
+    console.log(`Parsed ${rowCount} rows for features`);
+    res.end()
+  });
