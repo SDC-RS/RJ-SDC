@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS sdc;
+-- CREATE DATABASE IF NOT EXISTS sdc;
 
 \c sdc;
 DROP SCHEMA IF EXISTS public CASCADE;
@@ -7,7 +7,7 @@ DROP SCHEMA IF EXISTS datasdc CASCADE;
 CREATE SCHEMA datasdc;
 
 CREATE TABLE IF NOT EXISTS datasdc.products (
-  product_id integer NOT NULL PRIMARY KEY,
+  product_id SERIAL PRIMARY KEY,
   name VARCHAR(35) NOT NULL,
   slogan TEXT NOT NULL,
   description TEXT NOT NULL,
@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS datasdc.products (
 COPY datasdc.products FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/products.csv' CSV HEADER;
 
 CREATE TABLE IF NOT EXISTS datasdc.features (
-  feature_id integer NOT NULL PRIMARY KEY,
-  product_id integer NOT NULL,
+  feature_id SERIAL PRIMARY KEY,
+  product_id integer REFERENCES datasdc.products,
   feature VARCHAR(35) NOT NULL,
   value VARCHAR(35) NOT NULL
 );
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS datasdc.features (
 COPY datasdc.features FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/features.csv' CSV HEADER;
 
 CREATE TABLE IF NOT EXISTS datasdc.styles (
-  styles_id integer NOT NULL PRIMARY KEY,
-  product_id integer NOT NULL,
+  styles_id SERIAL PRIMARY KEY,
+  product_id integer REFERENCES datasdc.products,
   name VARCHAR(35) NOT NULL,
   sale_price integer NULL,
   original_price integer NOT NULL,
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS datasdc.styles (
 COPY datasdc.styles FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/styles.csv' WITH NULL AS 'null' CSV HEADER;
 
 CREATE TABLE IF NOT EXISTS datasdc.skus (
-  skus_id integer NOT NULL PRIMARY KEY,
-  styles_id integer NOT NULL,
+  skus_id SERIAL PRIMARY KEY,
+  styles_id integer REFERENCES datasdc.styles,
   size VARCHAR(35) NOT NULL,
   quantity integer NOT NULL
 );
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS datasdc.skus (
 COPY datasdc.skus FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/skus.csv' CSV HEADER;
 
 CREATE TABLE IF NOT EXISTS datasdc.photos (
-  photo_id integer NOT NULL PRIMARY KEY,
-  styles_id integer NOT NULL,
+  photo_id SERIAL PRIMARY KEY,
+  styles_id integer REFERENCES datasdc.styles,
   thumbnail_url text NOT NULL,
   url text NOT NULL
 );
@@ -56,11 +56,11 @@ CREATE TABLE IF NOT EXISTS datasdc.photos (
 COPY datasdc.photos FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/photos.csv' CSV HEADER;
 
 CREATE TABLE IF NOT EXISTS datasdc.related (
-  related_id integer NOT NULL PRIMARY KEY,
-  current_product_id integer NOT NULL,
+  related_id SERIAL PRIMARY KEY,
+  current_product_id integer REFERENCES datasdc.products,
   related_product_id integer NOT NULL
 );
 
 COPY datasdc.related FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/related.csv' CSV HEADER;
 
-\dt;
+
