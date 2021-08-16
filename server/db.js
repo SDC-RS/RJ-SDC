@@ -49,17 +49,17 @@ const getProductById = (productId, cb) => {
 }
 
 const getRelatedProducts = (productId, cb) => {
-  const query = `SELECT * FROM datasdc.related WHERE \
+  const query = `SELECT related_product_id FROM datasdc.related WHERE \
    datasdc.related.current_product_id = ${productId}`;
   pool.query(query, null, (err, results) => {
     if (err) {
     cb(err);
     }
-    const related = [];
-    results.rows.forEach((row) => {
-      related.push(row.related_product_id)
-    })
-    cb(null, related);
+    // const related = [];
+    // results.rows.forEach((row) => {
+    //   related.push(row.related_product_id)
+    // })
+    cb(null, results.rows);
   })
 }
 

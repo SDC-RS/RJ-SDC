@@ -2,3 +2,5 @@
 data/*.csv
 node_modules/
 server/testQueries.sql
+newrelic.js
+newrelic_agent.log
