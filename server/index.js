@@ -3,11 +3,14 @@ require('newrelic');
 const express = require('express');
 const path = require('path');
 const db = require('./db.js');
+const cors = require('cors');
 
 const app = express();
 const port = 3020;
 
 app.use(express.json());
+
+app.use(cors())
 
 app.get('/products', (req, res) => {
   db.getAllProducts((err, data) => {

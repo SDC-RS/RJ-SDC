@@ -3,14 +3,14 @@ import { check, sleep } from 'k6';
 import { getAll, getById, getRelated, getStyles } from './tests.js';
 
 export let options = {
-  vus: 10,
-  duration: '30s',
+  vus: 1,
+  duration: '10s',
 };
 
 export default function () {
-  // getStyles();
+  getStyles();
   getRelated();
-  //getById();
-  // getAll();
+  getById();
+  getAll();
 }
 

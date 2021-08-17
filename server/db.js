@@ -6,6 +6,7 @@ const pool = new Pool({
   user: 'racheljones',
   host: 'localhost',
   database: 'sdc',
+  //password: 'password123',
   port: 5432,
 })
 const getAllProducts = (cb) => {
@@ -55,11 +56,11 @@ const getRelatedProducts = (productId, cb) => {
     if (err) {
     cb(err);
     }
-    // const related = [];
-    // results.rows.forEach((row) => {
-    //   related.push(row.related_product_id)
-    // })
-    cb(null, results.rows);
+    const related = [];
+    results.rows.forEach((row) => {
+      related.push(row.related_product_id)
+    })
+    cb(null, related);
   })
 }
 

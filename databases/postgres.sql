@@ -64,4 +64,9 @@
 -- COPY datasdc.related FROM '/Users/racheljones/hack-reactor-work/RJ-SDC/data/related.csv' CSV HEADER;
 
 -- CREATE INDEX idx_product_id ON datasdc.products(product_id);
-CREATE INDEX idx_product_id1 ON datasdc.related(related_id);
+-- CREATE INDEX idx_product ON datasdc.related(current_product_id);
+-- CREATE INDEX idx_product_feature ON datasdc.features(product_id);
+-- CREATE INDEX idx_product_styles ON datasdc.styles(product_id);
+-- CREATE INDEX idx_style_photos ON datasdc.photos(styles_id);
+CREATE INDEX idx_style_skus ON datasdc.skus(styles_id);
+
