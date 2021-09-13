@@ -1,7 +1,5 @@
 # Product API Service
-
-This repo contains the schema file to run in the database instance when deploying, as well as the API design for deplying server instances.
-
+This is a rebuild of the Products microservice for Project Catwalk. It was deployed using AWS EC2 and tested using loader.io and newrelic.
 ### Tech Stack
 - PostgreSQL
 - Express.js
